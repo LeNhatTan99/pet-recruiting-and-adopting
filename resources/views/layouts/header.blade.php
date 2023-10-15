@@ -3,7 +3,7 @@
         <div class="col-md-4 nav-menu">
             <ul class="list-unstyled d-flex">
                 <li class="nav-menu-item"><a href="{{route('home')}}"><span class="nav-menu-active">Home</span></a></li>
-                <li class="nav-menu-item"><a href="{{route('gallery')}}"><span>Adoption Cases</span></a></li>
+                <li class="nav-menu-item"><a href="{{route('adoptionCases')}}"><span>Adoption Cases</span></a></li>
                 <li class="nav-menu-item"><span>Donation Cases</span></li>
                 <li class="nav-menu-item"><span>News</span></li>
             </ul>

@@ -105,7 +105,7 @@
             <p class="text-align-center font-weight-300 font-size-18">Visit to see each case of individual animal and choose to adopt or donate to them.</p>
          </div>
          <div class="text-align-center py-2 div-center">
-            <a href="{{route('gallery')}}" class="btn-go font-weight-300">
+            <a href="{{route('adoptionCases')}}" class="btn-go font-weight-300">
                Go
             </a>
          </div>

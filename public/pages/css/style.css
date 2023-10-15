@@ -11,6 +11,15 @@
 .pdb-20 {
     padding-bottom: 20px;
 }
+.pdt-20 {
+    padding-top: 20px;
+}
+.pdr-20 {
+    padding-right: 20px;
+}
+.pdl-20 {
+    padding-left: 20px;
+}
 .font-weight-300 {
     font-weight: 300;
 }
@@ -30,6 +39,8 @@
 .footer-section {
     background-color: #c7ddff;
     font-size: 14px;
+    border-top: 2px #000 solid;
+    box-shadow: 1px;
 }
 .footer-section p {
  margin-bottom: 8px;

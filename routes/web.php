@@ -46,4 +46,4 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('profile', [UserController::class, 'showProfile'])->name('show.profile');
     Route::post('edit-profile/{username}', [UserController::class, 'editProfile'])->name('edit.profile');
 });
-Route::get('adoption-cases', [AnimalController::class, 'adoptionCases'])->name('gallery');
+Route::get('adoption-cases', [AnimalController::class, 'adoptionCases'])->name('adoptionCases');

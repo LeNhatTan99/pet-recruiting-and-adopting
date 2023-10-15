@@ -131,6 +131,14 @@ p {
 .animal-info {
     background: #fff;
     width: 100%;
+    min-height: 200px;
+    position: relative;
+}
+.animal-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
 }
 .animal-status {
     position: absolute;
@@ -138,7 +146,7 @@ p {
     left: -1px;
     padding: 2px 15px;
     color: #fff;
-font-weight: bold;
+    font-weight: bold;
     background: #f74040;
     border-radius: 0 0 8px 0;
 }
@@ -185,4 +193,13 @@ font-weight: bold;
 }
 .gallery-item {
     flex: 1;
+}
+.btn-adoption {
+    background: #E7D319;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 18px;
+    transform: translateX(-50%);
 }

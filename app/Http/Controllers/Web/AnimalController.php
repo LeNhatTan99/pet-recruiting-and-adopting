@@ -49,11 +49,11 @@ class AnimalController extends Controller
         if (isset($request->name)) {
             $datas->where('name', 'like', '%' . $request->input('name') . '%');
         }
-        if ($request->has('genders')) {
+        if (isset($request->genders)) {
             $selectedGenders = $request->input('genders');
             $datas->whereIn('gender', $selectedGenders);
         }
-        if (isset($request->gender)) {
+        if (isset($request->ages)) {
             $selectedAges = $request->input('ages');      
             $datas->whereIn('age', function($query) use ($selectedAges) {
                 $query->select('age');
@@ -81,7 +81,7 @@ class AnimalController extends Controller
         
         
         $datas = $datas->get();
-        return view('pages.gallery.index', compact('datas', 'genders', 'ages', 'breeds', 'types'));
+        return view('pages.adoptionCase.index', compact('datas', 'genders', 'ages', 'breeds', 'types'));
     }
 
     public function editProfile(RegisterRequest $request, $username) {
