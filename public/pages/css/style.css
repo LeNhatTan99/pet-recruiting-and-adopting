@@ -1,0 +1,40 @@
+.text-align-center {
+    text-align: center;
+}
+.pd-20 {
+    padding: 20px;
+}
+.pdy-20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.pdb-20 {
+    padding-bottom: 20px;
+}
+.font-weight-300 {
+    font-weight: 300;
+}
+.font-size-20 {
+    font-size: 20px;
+}
+.font-size-18 {
+    font-size: 18px;
+}
+.font-size-16 {
+    font-size: 16px;
+}
+.carousel {
+    height: 860px;
+    position: relative;
+}
+.footer-section {
+    background-color: #c7ddff;
+    font-size: 14px;
+}
+.footer-section p {
+ margin-bottom: 8px;
+ font-weight: 300;
+}
+.footer-section .link-donate:hover {
+    font-weight: 400;
+}

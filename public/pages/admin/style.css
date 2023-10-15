@@ -1,0 +1,21 @@
+.image-table {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+}
+.collumn{
+    max-width: 150px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+.collumn-text{
+    max-width: 200px;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}

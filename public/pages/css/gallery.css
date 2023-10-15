@@ -1,0 +1,188 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+article,
+aside,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+    display: block;
+}
+
+hr {
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+
+ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
+}
+p {
+    margin-bottom: 8px;
+}
+
+.heading-section {
+    text-transform: uppercase;
+    margin: 12px 0;
+}
+
+
+/* animal */
+.animal {
+    display: block;
+    width: 100%;
+    margin-bottom: 40px;
+    position: relative;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 1px 2px 5px #888888;
+}
+
+@media (max-width: 991.98px) {
+    .animal {
+        margin-bottom: 30px;
+    }
+}
+
+
+.animal .img-animal .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+    opacity: 0;
+    background: #ffa45c;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.animal .img-animal {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    height: 200px;
+}
+.animal .img-animal img {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+@media (min-width: 991.98px) {
+    .animal  img {
+        display: block;
+        height: 320px;
+    }
+}
+@media (max-width: 991.98px) {
+    .animal  img {
+        display: block;
+        min-height: 300px;
+    }
+}
+
+
+.animal .img-animal:hover img,
+.animal .img-animal:focus img {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    -o-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+
+.img-animal:hover .overlay {
+    opacity: .3;
+}
+
+.animal-info {
+    background: #fff;
+    width: 100%;
+}
+.animal-status {
+    position: absolute;
+    top: 0px;
+    left: -1px;
+    padding: 2px 15px;
+    color: #fff;
+font-weight: bold;
+    background: #f74040;
+    border-radius: 0 0 8px 0;
+}
+.animal-gender {
+    position: absolute;
+    top: 0px;
+    right: -1px;
+    padding: 12px 4px;
+    color: red;
+    font-weight: 400;
+    background: #e7d319;
+    border-radius: 0 0 0 8px;
+}
+.animal-name {
+    color: #000000;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.animal-name:hover,
+.animal-name:focus ,
+.animal-name:active  {
+    color: #C7C150;
+}
+
+.animal-description {
+    margin-bottom: 0;
+    line-height: 1.2;
+    font-weight: 400;
+}
+
+.gallery {
+    background-color: #c7ddff;
+    color: #323235;
+    font-weight: 300;
+}
+.gallery-main {
+    display: flex;
+}
+.siderbar-filter {
+    width: 200px;
+}
+.gallery-item {
+    flex: 1;
+}
