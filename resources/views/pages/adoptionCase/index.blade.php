@@ -79,19 +79,13 @@
                                 <div class="col-md-6 col-lg-3 ">
                                     <div class="animal">
                                         <div class="img-animal">
-                                            <a >
+                                            <a>
                                                 <img class="img-fluid" src="{{ asset($animal->image) }}" alt="Hình ảnh">
                                                 <div class="overlay"></div>
                                             </a>
                                         </div>
                                         <div class="animal-info py-3 px-3">
                                             <div class="pb-3">
-                                                <span class="animal-status">
-                                                    {{ $animal->status }}
-                                                </span>
-                                                <span class="animal-gender">
-                                                    {{ $animal->gender }}
-                                                </span>
                                                 <h5 class="font-weight-300"><strong> {{ $animal->name }}</strong></h5>
                                                 <p class="animal-description">
                                                     {{ $animal->description }}
@@ -101,6 +95,12 @@
                                                 <button class=" btn-adoption">Adoption</button>
                                             </div>
                                         </div>
+                                        <span class="animal-status">
+                                            {{ $animal->status }}
+                                        </span>
+                                        <span class="animal-gender">
+                                            {{ $animal->gender }}
+                                        </span>
                                     </div>
                                 </div>
                             @endforeach
@@ -111,59 +111,7 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('base/js/jquery-2.2.4.js') }}"></script>
-    <script>
-        var route = $('#myForm').attr("action");
-
-        var isSubmitting = false;
-
-        function performSearch() {
-            if (isSubmitting) {
-                return;
-            }
-            isSubmitting = true;
-            // get value input and select
-            var nameValue = $('input[name=name]').val();
-            var typeValue = $('#selectInputType').val();
-            var breedValue = $('#selectInputBreed').val();
-            var genderValues = [];
-            var agesValues = [];
-            $('input[name="genders[]"]:checked').each(function() {
-                genderValues.push($(this).val());
-            });
-
-            $('input[name="ages[]"]:checked').each(function() {
-                agesValues.push($(this).val());
-            });
-
-            // create URL search
-            let url = route + '?name=' + nameValue + '&type=' + typeValue + '&breed=' + breedValue;
-            if (genderValues.length) {
-                url = url + '&genders%5B%5D=' + genderValues.join('&genders%5B%5D=');
-            }
-            if (agesValues.length) {
-                url = url + '&ages%5B%5D=' + agesValues.join('&ages%5B%5D=');
-            }
-
-            // send AJAX request
-            $.ajax({
-                url: url,
-                method: 'get',
-                success: function(result) {
-                    $('.antialiased').html(result);
-                    isSubmitting = false;
-                },
-                error: function(error) {
-                    console.log(error);
-                    isSubmitting = false;
-                }
-            });
-        }
-        $('input[name="name"], #selectInputType, #selectInputBreed, #checkboxInputGender, #checkboxInputAge').on('change',function() {
-            performSearch();
-        });
-    </script>
 @stop
 @section('js')
-
+    @include('pages.adoptionCase.script')
 @stop
