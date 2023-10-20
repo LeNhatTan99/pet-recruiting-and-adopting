@@ -44,10 +44,6 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-        'rescuer' => [
-            'driver' => 'session',
-            'provider' => 'rescuer',
-        ],
     ],
 
     /*
@@ -76,11 +72,6 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
-        'rescuers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Rescuer::class,
-        ],
-
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

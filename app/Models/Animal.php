@@ -16,13 +16,26 @@ class Animal extends Model
     const AGE_2_TO_5 = '2to5';
     const AGE_5_TO_10 = '5to10';
     const AGE_MORE_THAN_10 = '>10';
+    const AVAILABLE  = 'available';
+    const UNAVAILABLE  = 'unavailable';
+    const PENDING = 'pending';
+    const CANCEL  = 'cancel';
+    const IN_PROGRESS = 'in progress';
+    const NEED_DONATE = 'need donate';
+    const BREED_NATIVE_DOG = 'Native Dog';
+    const BREED_NON_NATIVE_DOG = 'Non-native Dog';
+    const BREED_NATIVE_CAT = 'Native Cat';
+    const BREED_NON_NATIVE_CAT = 'Non-native Cat';
+    const TYPE_DOG = 'Dog';
+    const TYPE_CAT = 'Cat';
+
         /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'rescuser_id',
+        'rescuer_id',
         'name',
         'image',
         'type',
@@ -32,4 +45,19 @@ class Animal extends Model
         'description',
         'status'
     ];
+
+        /**
+     * search status 
+     * @return array
+     */
+    public static function getStatus() {
+        return [
+            self::AVAILABLE => 'available',
+            self::UNAVAILABLE => 'unavailable',
+            self::IN_PROGRESS => 'in progress',
+            self::NEED_DONATE => 'need donate',
+            self::CANCEL  => 'cancel',
+            self::PENDING => 'pending',
+        ];
+    }
 }

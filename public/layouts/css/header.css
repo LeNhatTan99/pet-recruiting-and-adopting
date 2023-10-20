@@ -17,6 +17,7 @@ ul {
 .main-header {
     height: 100px;
     background-color: #c7ddff;
+    border-bottom: 1px #ccc solid;
 }
 .navbar {
     padding: 0 20px;
@@ -81,6 +82,7 @@ ul {
     background: #000;
     border: none;
     font-weight: 300;
+    text-wrap: nowrap;
 }
 .nav-action .btn-signin:hover {
     opacity: 0.8;
@@ -116,4 +118,13 @@ ul {
 
 .nav-action-box a:hover {
     background-color: #eee;
+}
+@media (max-width: 991.98px) {
+    .content-header {
+        background: #c7ddff;
+    }
+}
+.flex-container {
+    display: flex;
+    align-items: center;
 }

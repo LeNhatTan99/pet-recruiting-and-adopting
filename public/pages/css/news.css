@@ -1,0 +1,31 @@
+.thumbnail-news {
+    border-bottom: 1px solid #fff;
+    padding: 10px 0;
+}
+.news {
+    background-color: #c7ddff;
+    color: #323235;
+    font-weight: 300;
+}
+.news-title {
+    text-transform: uppercase;
+}
+.news-content:first-of-type {
+    text-indent: 20px;
+}
+.news-btn .btn-read {
+   background-color: #fff;
+   font-weight: 400;
+}
+.model-news .form-control{
+    font-weight: 300;
+}
+.model-news .error {
+    margin: 0;
+}
+.btn-edit-news {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    text-decoration: underline;
+}

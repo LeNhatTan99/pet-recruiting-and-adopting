@@ -32,9 +32,9 @@
                            pet adoption begins.&nbsp;</p>
                      </div>
                         <div class="text-align-center">
-                           <button class="btn-read btn-carousel">
+                           <a href="{{route('adoptionCases')}}" class="btn-read btn-carousel">
                               Ready to Adopt?
-                           </button>
+                           </a>
                         </div>
                   </div>
                </div>     
@@ -56,9 +56,9 @@
                         <p class="text-align-center carousel-content-text">&nbsp;<strong>Transparency and Accountability</strong></p>
                      </div>
                      <div class="text-align-center">
-                        <button class="btn-read btn-carousel">
+                        <a href="{{route('adoptionCases')}}" class="btn-read btn-carousel">
                            Ready to Foser?
-                        </button>
+                        </a>
                      </div>
                   </div>
                </div>
@@ -78,9 +78,9 @@
                         <p class="carousel-content-text">Start your adoption journey with us today, and let's make a difference, one furry friend at a time.&nbsp;</p>
                      </div>
                      <div class="text-align-center">
-                        <button class="btn-read btn-carousel">
+                        <a href="{{route('donationCases')}}" class="btn-read btn-carousel">
                            Willing to Donate?
-                        </button>
+                        </a>
                      </div>
                   </div>
                </div>
@@ -108,6 +108,56 @@
             <a href="{{route('adoptionCases')}}" class="btn-go font-weight-300">
                Go
             </a>
+         </div>
+      </div>
+      <div class="about-me">
+         <div class="container">
+            <div class="row about-me-padding">
+               <div class="col-md-6">
+                  <div class="about-me-thumbnail">
+                     <div class="about-me-img">
+                        <img src="{{asset('images/web/about-me-left.png')}}" alt="">
+                     </div>
+                     <div class="about-me-content">
+                        <div class="pdy-20">
+                           <h3 class="about-me-title">A Haven for Animals</h3>
+                           <p class="about-me-description">
+                              Our website serves as a haven for animals in search of loving homes. 
+                              We work with reputable rescuers and shelters to list a wide variety of animals, 
+                              from playful puppies and kittens to wise old companions.
+                           </p>
+                        </div>
+                     </div>
+                     <div class="about-me-btn">
+                        <a href="{{route('adoptionCases')}}" class="btn-read btn-about-me">
+                           Willing to Adopt?
+                        </a>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="about-me-thumbnail">
+                     <div class="about-me-img">
+                        <img src="{{asset('images/web/about-me-right.png')}}" alt="">
+                     </div>
+                     <div class="about-me-content">
+                        <div class="pdy-20">
+                           <h3 class="about-me-title">Community and Support</h3>
+                           <p class="about-me-description">
+                              Our platform is more than just a place to find pets. 
+                              It's a community of animal lovers. Connect with others through our forum, 
+                              share your adoption stories, and find the support and advice you need.
+                           </p>
+                        </div>
+                     </div>
+                     <div class="about-me-btn">
+                        <a href="{{route('donationCases')}}" class="btn-read btn-about-me">
+                           Willing to Donate?
+                        </a>
+                     </div>
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>

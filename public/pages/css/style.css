@@ -1,12 +1,19 @@
 .text-align-center {
     text-align: center;
 }
+.relative {
+    position: relative;
+}
 .pd-20 {
     padding: 20px;
 }
 .pdy-20 {
     padding-top: 20px;
     padding-bottom: 20px;
+}
+.pdx-20 {
+    padding-right: 20px;
+    padding-left: 20px;
 }
 .pdb-20 {
     padding-bottom: 20px;
@@ -19,6 +26,29 @@
 }
 .pdl-20 {
     padding-left: 20px;
+}
+.md-20 {
+    margin: 20px;
+}
+.mdy-20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.mdx-20 {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.mdb-20 {
+    margin-bottom: 20px;
+}
+.mdt-20 {
+    margin-top: 20px;
+}
+.mdr-20 {
+    margin-right: 20px;
+}
+.mdl-20 {
+    margin-left: 20px;
 }
 .font-weight-300 {
     font-weight: 300;
@@ -48,4 +78,19 @@
 }
 .footer-section .link-donate:hover {
     font-weight: 400;
+}
+.required::after {
+    content: " *";
+    color: red;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
+.btn-read {
+    border: none;
+    padding: 16px 30px;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 12px;
 }

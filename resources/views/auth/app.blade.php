@@ -23,8 +23,10 @@
 <body>
     @yield('content')
     <script src="{{ asset('base/js/jquery-2.2.4.js') }}"></script>
+    <script src="{{ asset('base/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('base/js/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('base/js/toastr.min.js') }}"></script>
+    @yield('js')
     @if (session('success') || session('error'))
         <script type="text/javascript">
             toastr.options = {

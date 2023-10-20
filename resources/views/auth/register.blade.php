@@ -10,7 +10,7 @@
             <a href="{{route('register')}}" class="btn-register active">Register</a>
         </div>
         <div class="form-register form-item">
-            <form action="{{ route('post.register')}}" method="post"  id="form-register">
+            <form class="create-form" action="{{ route('post.register')}}" method="post"  id="form-register">
                 @csrf
                 <div class="border-form">
                     <div class="form-group">
@@ -75,11 +75,13 @@
                             <div class="error">{{ $errors->first('password') }}</div>
                         @endif
                     </div> 
-                    <button type="submit"  class="form-submit">Register</button>
+                    <button type="submit" class="form-submit submit-form">Register</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-@include('auth.script')
 @endsection
+@section('js')
+    @include('auth.script')
+@stop

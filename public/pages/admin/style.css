@@ -1,9 +1,14 @@
+a {
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
+}
 .image-table {
     height: 40px;
     width: 40px;
     object-fit: cover;
 }
-.collumn{
+.column{
     max-width: 150px;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
@@ -11,11 +16,64 @@
     text-overflow: ellipsis;
     word-wrap: break-word;
 }
-.collumn-text{
-    max-width: 200px;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+.column-text{
+    max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.break-word {
     word-wrap: break-word;
+}
+.breadcrumb .active {
+    font-weight: bold;
+}
+.breadcrumb a:hover {
+    font-weight: bold;
+    opacity: 0.9;
+    color: #000;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
+.required::after {
+    content: " *";
+    color: red;
+}
+.result-description {
+    line-height: 1.4;
+    word-spacing: normal;
+}
+.result-name {
+  font-weight: 500;
+  color: burlywood;
+}
+.navbar-active {
+    background-color: rgba(255,255,255,.1);
+    color: #fff;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar-admin {
+        display: none;
+    }
+}
+@media (min-width: 991.98px) {
+    .btn-show-sidebar {
+        display: none;
+    }
+    .sidebar-admin {
+        display: block !important;
+    }
+}
+.toggle-sidebar {
+    border: none;
+    background-color: transparent;
+}
+.btn-logout:hover {
+    background-color: rgba(255,255,255,.1);
+    color: #fff;
+    padding: 4px;
+    border-radius: 4px;
 }

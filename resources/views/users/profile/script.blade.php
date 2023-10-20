@@ -121,7 +121,7 @@
                 },
                 success: function (response) {              
                     if (response.success) {
-                        // Cập nhật giao diện người dùng hoặc hiển thị thông báo
+                        // update interface
                         toastr.success(response.message);
                         $("#username").text(username);
                         $("#fullname").text(firstName + ' ' + lastName);
@@ -130,12 +130,11 @@
                         $("#address").text(address);
     
                     } else {
-                        // Xử lý trường hợp cập nhật không thành công
+                        //show toast failed
                         toastr.error('Failed to update profile');
                     }
                 },
                 error: function (error) {
-                    // Xử lý lỗi nếu yêu cầu thất bại
                     console.log(error);
                     toastr.error(error.responseJSON.message);
                 }

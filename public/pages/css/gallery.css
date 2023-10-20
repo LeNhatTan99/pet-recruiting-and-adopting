@@ -3,6 +3,10 @@
     margin: 0;
     box-sizing: border-box;
 }
+body {
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
 
 article,
 aside,
@@ -113,7 +117,6 @@ p {
     }
 }
 
-
 .animal .img-animal:hover img,
 .animal .img-animal:focus img {
     -webkit-transform: scale(1.1);
@@ -122,7 +125,6 @@ p {
     -o-transform: scale(1.1);
     transform: scale(1.1);
 }
-
 
 .img-animal:hover .overlay {
     opacity: .3;
@@ -146,7 +148,7 @@ p {
     left: -1px;
     padding: 2px 15px;
     color: #fff;
-    font-weight: bold;
+    font-weight: 400;
     background: #f74040;
     border-radius: 0 0 8px 0;
 }
@@ -166,6 +168,8 @@ p {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: bold;
+    word-wrap: break-word;
+    color: #C7C150;
 }
 
 .animal-name:hover,
@@ -203,3 +207,37 @@ p {
     bottom: 18px;
     transform: translateX(-50%);
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.content {
+    max-height: 4em;
+    overflow: hidden;
+    position: relative;
+    width: 200px;
+  }
+  
+  .content p {
+    margin: 0;
+  }
+  
+  .read-more {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: white;
+    border: none;
+    cursor: pointer;
+  }
+  .text {
+    margin: 0;
+    transition: max-height 0.5s ease;
+  }

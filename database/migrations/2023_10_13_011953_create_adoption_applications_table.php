@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id('id');
             $table->integer('animal_id');
             $table->integer('user_id');
+            $table->string('reason', 500);
             $table->date('application_date');
             $table->string('status');
             $table->timestamps();

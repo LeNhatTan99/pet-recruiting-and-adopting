@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ asset('pages/user/css/profile.css') }}">
 @stop
 @section('content')
-    <div class="page-content page-container" id="page-content">
+    <div class="page-content page-container" id="page-content" style="min-height: 600px">
         <div class="padding">
             <div class="row container d-flex justify-content-center">
                 <div class="col-xl-6 col-md-12">

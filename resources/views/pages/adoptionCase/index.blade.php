@@ -10,93 +10,51 @@
     <div class="gallery py-3">
         <div class="container">
             <div class="pdy-20">
-                <h1 class="text-align-center font-weight-300">Animal Cases</h1>
+                <h1 class="text-align-center font-weight-300">Adoption cases</h1>
             </div>
             <div class="gallery-main">
                 <div class="siderbar-filter pdy-20 pdr-20">
                     <form id="myForm" action="{{ route('adoptionCases') }}" method="GET">
-                        <div class="search pdb-20">
-                            <h5><i class="fas fa-search"></i> Search</h5>
-                            <div class="">
-                                <input id="textInput" name="name" type="text"
-                                    class="form-control search-slt font-weight-300" placeholder="Enter name animal"
-                                    value="{{ old('name', request()->input('name')) }}">
-                            </div>
-                        </div>
-                        <div class="search-filter">
-                            <h5><i class="fas fa-filter"></i> Search filters</h5>
-                            <h6>By type</h6>
-                            <div class="pb-2">
-                                <select id="selectInputType" name="type" class="form-control search-slt font-weight-300">
-                                    <option value="">-- Select type --</option>
-                                    @foreach ($types as $value)
-                                        <option value="{{ $value->name }}"
-                                            @if (old('type', request()->input('type')) == $value->name) selected @endif>{{ $value->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <h6>By breed</h6>
-                            <div class="pb-2">
-                                <select id="selectInputBreed" name="breed"
-                                    class="form-control search-slt font-weight-300">
-                                    <option value="">-- Select breed --</option>
-                                    @foreach ($breeds as $value)
-                                        <option value="{{ $value->name }}"
-                                            @if (old('breed', request()->input('breed')) == $value->name) selected @endif>{{ $value->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <h6>By gender</h6>
-                            @foreach ($genders as $value => $label)
-                                <div class="form-check">
-                                    <input id="checkboxInputGender" class="form-check-input" type="checkbox"
-                                        name="genders[]" value="{{ $value }}"
-                                        @if (is_array(old('genders', request()->input('genders'))) &&
-                                                in_array($value, old('genders', request()->input('genders')))) checked @endif>
-                                    <label class="form-check-label">{{ $label }}</label>
-                                </div>
-                            @endforeach
-                            <h6>By age</h6>
-                            @foreach ($ages as $value => $label)
-                                <div class="form-check">
-                                    <input id="checkboxInputAge" class="form-check-input" type="checkbox" name="ages[]"
-                                        value="{{ $value }}" @if (is_array(old('ages', request()->input('ages'))) && in_array($value, old('ages', request()->input('ages')))) checked @endif>
-                                    <label class="form-check-label">{{ $label }}</label>
-                                </div>
-                            @endforeach
-                        </div>
+                        @include('pages.adoptionCase.search')
                     </form>
-                    <a href="{{ route('adoptionCases') }}" class="btn btn-primary wrn-btn my-4">Clear all</a>
                 </div>
                 <div class="row pdy-20 gallery-item">
                     <div class="col-md-12 col-lg-12 order-md-last">
                         @if ($datas->count() < 1)
                             <h5 class="text-align-center pdt-20">No results found.</h5>
-                        @endif
+                        @else
                         <div class="row">
                             @foreach ($datas as $animal)
                                 <div class="col-md-6 col-lg-3 ">
                                     <div class="animal">
                                         <div class="img-animal">
                                             <a>
-                                                <img class="img-fluid" src="{{ asset($animal->image) }}" alt="Hình ảnh">
+                                                <img class="img-fluid" src="{{ asset('storage/'.$animal->image) }}" alt="Hình ảnh">
                                                 <div class="overlay"></div>
                                             </a>
                                         </div>
                                         <div class="animal-info py-3 px-3">
                                             <div class="pb-3">
-                                                <h5 class="font-weight-300"><strong> {{ $animal->name }}</strong></h5>
+                                                <h5 class="animal-name font-weight-300"><strong> {{ $animal->name }}</strong></h5>
                                                 <p class="animal-description">
                                                     {{ $animal->description }}
                                                 </p>
                                             </div>
                                             <div class="text-align-center">
-                                                <button class=" btn-adoption">Adoption</button>
+                                                {{-- <form method="post" action="{{route('user.adopt', $animal->id)}}">
+                                                    @csrf
+                                                    <a data-title="Are you sure you want to adopt it?"
+                                                        data-text='Your request will be approved by the rescuer'
+                                                        href="{{route('user.adopt', $animal->id)}}" 
+                                                        class="btn btn-warning get-button">
+                                                            Adoption
+                                                      </a>
+                                                </form> --}}
+                                                <button class="btn-adoption" data-id=" {{ $animal->id }}" data-toggle="modal" data-target="#showModal">Adoption</button>
                                             </div>
                                         </div>
                                         <span class="animal-status">
-                                            {{ $animal->status }}
+                                            Can adopt
                                         </span>
                                         <span class="animal-gender">
                                             {{ $animal->gender }}
@@ -105,12 +63,40 @@
                                 </div>
                             @endforeach
                         </div>
+                        {{ $datas->links() }}
+                        @endif
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document" style="margin: 6.75rem auto">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-align-center" id="showModalLabel">Are you sure you want to adopt it?</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <section class="section about-section gray-bg" id="about">
+                    <div class="container">
+                        <form class="create-form" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <label for="" class="required">Enter the reason you want to adopt</label>
+                                <input name="reason" type="text" class="form-control font-weight-300" placeholder="Enter the reason...">
+                            </div>
+                            <button type="button" class="btn btn-info btn-adopt" style="margin: 12px 0">Adopt</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 @section('js')
     @include('pages.adoptionCase.script')

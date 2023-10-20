@@ -35,6 +35,7 @@
         <script src="{{ asset('base/js/sweetalert2.min.js') }}"></script>
         <script src="{{ asset('base/js/toastr.min.js') }}"></script>
         <script src="{{ asset('base/js/jquery.validate.min.js') }}"></script>
+        @include('common.script')
         @yield('js')
     </body>
 </html>
