@@ -77,3 +77,38 @@ a {
     padding: 4px;
     border-radius: 4px;
 }
+#preview-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.preview-item {
+    width: 50%;
+    box-sizing: border-box;
+}
+.preview-item img, .preview-item video,
+.preview-item-edit img, .preview-item-edit video {
+    padding: 10px;
+    max-width: 100%;
+    max-height: 260px;
+}
+.preview-item-edit {
+    position: relative;
+    box-sizing: border-box;
+}
+.btn-delete-media {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    background-color: red;
+    border: none;
+    padding: 0 5px 5px 5px;
+    font-size: 24px;
+    line-height: 1;
+    color: #fff;
+}
+@media (max-width: 600px) {
+    .preview-item {
+        width: 100%;
+    }
+}

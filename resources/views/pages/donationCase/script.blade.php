@@ -1,6 +1,6 @@
 <script>
     $(document).ready(function() {
-        $(".create-form").validate({
+        $(".create-form1").validate({
             onfocusout: function(element, event) {
                 var val = $(element).val().trim()
                 $(element).val(val)

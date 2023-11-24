@@ -40,17 +40,17 @@
                                                     {{ $animal->description }}
                                                 </p>
                                             </div>
-                                            <div class="text-align-center">
-                                                {{-- <form method="post" action="{{route('user.adopt', $animal->id)}}">
-                                                    @csrf
-                                                    <a data-title="Are you sure you want to adopt it?"
-                                                        data-text='Your request will be approved by the rescuer'
-                                                        href="{{route('user.adopt', $animal->id)}}" 
-                                                        class="btn btn-warning get-button">
-                                                            Adoption
-                                                      </a>
-                                                </form> --}}
-                                                <button class="btn-adoption" data-id=" {{ $animal->id }}" data-toggle="modal" data-target="#showModal">Adoption</button>
+                                            <div class="row">
+                                                <div class="col-6">                                                    
+                                                    <div class="text-align-center">
+                                                        <button class="btn-adoption" data-id=" {{ $animal->id }}" data-toggle="modal" data-target="#showModal">Adoption</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">                                                    
+                                                    <div class="text-align-center">
+                                                        <button class="btn-adoption" data-toggle="modal" data-target="#modalDonation">Donation</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <span class="animal-status">
@@ -73,23 +73,49 @@
     </div>
     <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document" style="margin: 6.75rem auto">
+        <div class="modal-dialog" role="document" style="margin: 6.75rem auto">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-align-center" id="showModalLabel">Are you sure you want to adopt it?</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <section class="section about-section gray-bg" id="about">
+                        <div class="container">
+                            <form class="create-form" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="" class="required">Enter the reason you want to adopt</label>
+                                    <input name="reason" type="text" class="form-control font-weight-300" placeholder="Enter the reason...">
+                                </div>
+                                <button type="button" class="btn btn-info btn-adopt" style="margin: 12px 0">Adopt</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalDonation" tabindex="-1" role="dialog" aria-labelledby="showModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-align-center" id="showModalLabel">Are you sure you want to adopt it?</h5>
+                <h5 class="modal-title" id="showModalLabel">Donate to animal cases</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
                 <section class="section about-section gray-bg" id="about">
                     <div class="container">
-                        <form class="create-form" method="post">
+                        <form class="create-form1" action="{{route('user.donate')}}" method="post" >
                             @csrf
                             <div class="form-group">
-                                <label for="" class="required">Enter the reason you want to adopt</label>
-                                <input name="reason" type="text" class="form-control font-weight-300" placeholder="Enter the reason...">
+                                <label for="">Enter the amount</label>
+                                <input name="amount" type="number" class="form-control">
                             </div>
-                            <button type="button" class="btn btn-info btn-adopt" style="margin: 12px 0">Adopt</button>
+                            <button type="submit" class="btn btn-info submit-form" style="margin: 12px 0">Donate</button>
                         </form>
                     </div>
                 </section>
@@ -100,4 +126,5 @@
 @stop
 @section('js')
     @include('pages.adoptionCase.script')
+    @include('pages.donationCase.script')
 @stop

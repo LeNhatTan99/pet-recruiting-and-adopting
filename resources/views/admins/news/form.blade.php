@@ -15,5 +15,31 @@
                 <div class="error">{{ $errors->first('content') }}</div>
             @endif
         </div>
+        <input type="file" name="media[]" id="file-input" multiple accept="image/*,video/*">
+        @if ($errors->first('media'))
+            <div class="error">{{ $errors->first('media') }}</div>
+        @endif
+        <div id="preview-container"></div>
+        @if(!empty($media) && $media->count())
+            <h5 style="padding-top: 20px">Old media:</h5>
+            <div class="row">
+                @foreach ($media as $item)
+                    <div class="col-md-6">
+                        <div class="preview-item-edit">
+                            @if ($item->type == 'image')
+                                <img src="{{ asset('storage/' . $item->url) }}" alt="image">
+                            @else
+                                <video src="{{ asset('storage/' . $item->url) }}" controls alt="video"></video>
+                            @endif
+                            <button type="button" data-media-id="{{ $item->id }}" class="btn-delete-media">x</button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <input type="hidden" id="delete_media_ids" name="delete_media_ids" value="">
+        @endif
     </div>
 </div>
+@section('js')
+  @include('admins.news.script')
+@stop

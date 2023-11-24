@@ -29,3 +29,28 @@
     bottom: 0;
     text-decoration: underline;
 }
+.news-media img, .news-media video {
+    max-width: 100%;
+    height: 200px;
+}
+.thumbnail-news .carousel {
+    height: auto !important;
+}
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    width: 4rem !important;
+    height: 2rem !important;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+    .news-media img, .news-media video {
+        max-width: 100%;
+        height: 300px;
+        margin: 24px 0;
+    }
+}

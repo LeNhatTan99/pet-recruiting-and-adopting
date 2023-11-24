@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNewsRequest;
+use App\Models\Media;
 use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -64,7 +66,13 @@ class NewsController extends Controller
                 'content' => $request->content,
                 'post_date' => Carbon::now(),
             ];
-            News::create($params);
+            $news = News::create($params);
+            $uploadedFiles = $request->file('media');
+
+            if(!empty($uploadedFiles)) {
+                //function create media file
+                $this->createMedia($uploadedFiles, $news->id);
+            }
             DB::commit();
             return redirect()->route('create.news')->with(['success' => 'Create new post successfully']);
         } catch (\Exception $e) {
@@ -82,7 +90,8 @@ class NewsController extends Controller
     {
         try {
             $data = News::findOrFail($id);
-            return  view('admins.news.edit', compact('data'));
+            $media = Media::where('forum_post_id', $id)->get();
+            return  view('admins.news.edit', compact('data', 'media'));
         } catch (\Exception $e) {
             return redirect()->back()->with(['error' => 'Error']);
         }
@@ -111,6 +120,24 @@ class NewsController extends Controller
                 'content' => $request->content
             ];
 
+            $uploadedFiles = $request->file('media');
+            if(!empty($uploadedFiles)) {
+                //function create media file
+                $this->createMedia($uploadedFiles, $id);
+            }
+            //Check has delete media file when update
+            $deletedMediaIds = $request->input('delete_media_ids');
+            if(!empty($deletedMediaIds)) {
+                $deletedMediaIdsArray = json_decode($deletedMediaIds, true);
+                $mediaPaths = Media::whereIn('id', $deletedMediaIdsArray)->pluck('url')->toArray();
+
+                // delete media file in storage
+                foreach ($mediaPaths as $mediaPath) {
+                    Storage::delete('public' . $mediaPath);
+                }
+                // delete media record in database
+                Media::whereIn('id', $deletedMediaIdsArray)->delete();
+            }
             // Update the news post with the specified parameters
             $news->update($params);
 
@@ -118,7 +145,7 @@ class NewsController extends Controller
             DB::commit();
 
             // Redirect to the news index page with a success message
-            return redirect()->route('admin.news')->with(['success' => 'Update post successfully']);
+            return redirect()->back()->with(['success' => 'Update post successfully']);
         } catch (\Exception $e) {
             // Log any error that occurs during the update
             Log::error('[NewsController][update] error ' . $e->getMessage());
@@ -153,5 +180,37 @@ class NewsController extends Controller
             DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Failed to delete news']);
         }
+    }
+
+    public function createMedia($uploadedFiles, $forumPostId) {
+        $directoryImages = 'public/images/forum_posts';
+        $directoryVideo = 'public/videos/forum_posts';
+        if (!Storage::exists($directoryImages) ) {
+            Storage::makeDirectory($directoryImages);
+        }
+        if (!Storage::exists($directoryVideo) ) {
+            Storage::makeDirectory($directoryVideo);
+        }   
+        foreach ($uploadedFiles as $key => $file) {
+            $mimeType = $file->getMimeType();
+            $mediaType = null;
+            if (str_starts_with($mimeType, 'image/')) {
+                $directory = $directoryImages;
+                $mediaType = 'image';
+            } elseif (str_starts_with($mimeType, 'video/')) {
+                $directory = $directoryVideo;
+                $mediaType = 'video';
+            } else {
+                continue;
+            }       
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = Storage::putFileAs($directory, $file, $fileName);
+            $newPath = str_replace('public', '', $filePath);
+            Media::create([
+                'forum_post_id' => $forumPostId,
+                'url' => $newPath,
+                'type' => $mediaType,
+            ]);
+        }  
     }
 }

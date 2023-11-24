@@ -72,7 +72,7 @@
                 <div class="modal-body">
                     <section class="section about-section gray-bg" id="about">
                         <div class="container">
-                            <form class="create-form" action="{{route('user.donate')}}" method="post" >
+                            <form class="create-form1" action="{{route('user.donate')}}" method="post" >
                                 @csrf
                                 <div class="form-group">
                                     <label for="">Enter the amount</label>

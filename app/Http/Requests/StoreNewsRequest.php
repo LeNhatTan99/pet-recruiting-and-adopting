@@ -26,7 +26,8 @@ class StoreNewsRequest extends FormRequest
     {
         return [
             'content' => 'required|min:20',        
-            'title' => 'required|min:10|max:255',        
+            'title' => 'required|min:10|max:255',
+            'media.*' => 'mimetypes:image/jpeg,image/png,video/mp4,video/quicktime',  
         ];
     }
 }
