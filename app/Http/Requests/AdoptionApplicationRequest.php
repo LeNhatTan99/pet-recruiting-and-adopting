@@ -25,7 +25,10 @@ class AdoptionApplicationRequest extends FormRequest
     public function rules()
     {
         return [     
-            'reason' => 'required|min:10|max:255',        
+            'reason' => 'required|min:10|max:255', 
+            'link_social' => 'required|max:255', 
+            'front_side_ID_card' => 'required', 
+            'back_side_ID_card' => 'required', 
         ];
     }
 }

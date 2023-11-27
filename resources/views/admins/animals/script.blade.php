@@ -1,15 +1,41 @@
 <script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                $('#ImdID').attr('src', e.target.result);
+    $(document).ready(function() {
+        let selectedFiles = [];
+        $('#file-input').on('change', function(event) {
+            const previewContainer = $('#preview-container');
+            previewContainer.empty();
+            const files = event.target.files;
+            selectedFiles = [...files];
+            for (const file of files) {
+                const previewItem = $('<div class="preview-item"></div>');
+                if (file.type.startsWith('image/')) {
+                    const img = $('<img class="mx-auto d-block">');
+                    img.attr('src', URL.createObjectURL(file));
+                    previewItem.append(img);
+                } else if (file.type.startsWith('video/')) {
+                    const video = $('<video class="mx-auto d-block" controls></video>');
+                    video.attr('src', URL.createObjectURL(file));
+                    previewItem.append(video);
+                }
+                previewContainer.append(previewItem);
             }
+        });
 
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+        var deletedMediaIds = [];
+        $('.btn-delete-media').on('click', function () {
+            var mediaId = $(this).data('media-id');
+            var index = deletedMediaIds.indexOf(mediaId);
+            if (index === -1) {
+                deletedMediaIds.push(mediaId);
+            } else {
+                deletedMediaIds.splice(index, 1);
+            }
+            $('#delete_media_ids').val(JSON.stringify(deletedMediaIds));
+
+            $(this).closest('.preview-item-edit').parent().hide();
+        });
+    });
+
     $(document).ready(function() {
         $(".create-from").validate({
             onfocusout: function(element, event) {
@@ -63,7 +89,7 @@
                 "description": {
                     required: true,
                 },
-                'image': {
+                'media[]': {
                     required: true,
                 }
             },
@@ -90,8 +116,8 @@
                 "description": {
                     required: 'Description is required.'
                 },
-                "image": {
-                    required: 'Image is required.'
+                "media[]": {
+                    required: 'Images/Video is required.'
                 }
             },
             errorElement: 'p',
@@ -151,8 +177,20 @@
                 modal.find('.result-type').text(response.animal.type);
                 modal.find('.result-gender').text(response.animal.gender);
                 modal.find('.result-age').text(response.animal.age);
-                modal.find('.result-image').attr('src', '{{ asset('storage') }}/' + response.animal
-                    .image);
+                var mediaInfo = JSON.parse(response.animal.media_info);
+
+                modal.find('.about-avatar').empty();
+                // Loop through each media item
+                mediaInfo.forEach(function(media) {
+                    if (media.type === 'image') {
+                        // Handle image
+                        modal.find('.about-avatar').append('<img class="result-image" src="{{ asset('storage') }}/' + media.url + '" alt="image"  style="max-width: 100%">');
+                    } else if (media.type === 'video') {
+                        // Handle video
+                        modal.find('.about-avatar').append('<video style="max-width: 100%; height: 300px" class="result-video" controls><source src="{{ asset('storage') }}/' + media.url + '" type="video/mp4">Your browser does not support the video tag.</video>');
+                    }
+                });
+                
             },
             error: function(error) {
                 console.log(error);

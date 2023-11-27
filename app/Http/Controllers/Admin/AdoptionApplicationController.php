@@ -117,4 +117,27 @@ class AdoptionApplicationController extends Controller
             return response()->json(['success' => false, 'message' => 'Failed to update status']);
         }
     }
+
+        /**
+     * show info adoption application
+     * @param $id
+     * @return void
+     */
+    public function show($id)
+    {
+        try {
+            $adoptionApplication = AdoptionApplication::leftJoin('users', 'users.id', '=', 'adoption_applications.id')
+                ->where('adoption_applications.id', $id)
+                ->first();
+            return response()->json([
+                'adoptionApplication' => $adoptionApplication,
+                'success' => true,
+                'message' => 'Show info successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('[AnimalCasesController][show] error ' . $e->getMessage());
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Failed to show info']);
+        }
+    }
 }

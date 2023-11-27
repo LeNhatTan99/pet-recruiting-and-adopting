@@ -82,19 +82,34 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="required">Image</label>
-        <input id="inputImg" type="file" onchange="readURL(this);"
-            class="form-control @error('image') is-invalid @enderror" name="image" style="display: none">
-        <div> <label for="inputImg">
-                <span class="btn btn-success">
-                    <i class="fa-solid fa-image nav-icon"></i> Chọn hình ảnh
-                </span>
-            </label></div>
-        <img id="ImdID"
-            src="{{ isset($data) && $data->image ? asset('storage/' . $data->image) : asset('images/web/image-preview.png') }}"
-            alt="Image" class="mx-auto d-block" style="max-width: 360px; max-height: 360px;padding-top:20px" />
-        @if ($errors->first('image'))
-            <div class="error">{{ $errors->first('image') }}</div>
+        <label class="required">Images/Videos</label>
+        <input type="file" name="media[]" id="file-input" multiple accept="image/*,video/*" style="display: none">
+        <div> <label for="file-input">
+            <span class="btn btn-success">
+                <i class="fa-solid fa-image nav-icon"></i> Choose Images/Videos
+            </span>
+        </label></div>
+        @if ($errors->first('media'))
+            <div class="error">{{ $errors->first('media') }}</div>
+        @endif
+        <div id="preview-container"></div>
+        @if(!empty($media) && $media->count())
+            <h5 style="padding-top: 20px">Old Images/Videos:</h5>
+            <div class="row">
+                @foreach ($media as $item)
+                    <div class="col-md-6">
+                        <div class="preview-item-edit">
+                            @if ($item->type == 'image')
+                                <img src="{{ asset('storage/' . $item->url) }}" alt="image">
+                            @else
+                                <video src="{{ asset('storage/' . $item->url) }}" controls alt="video"></video>
+                            @endif
+                            <button type="button" data-media-id="{{ $item->id }}" class="btn-delete-media">x</button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <input type="hidden" id="delete_media_ids" name="delete_media_ids" value="">
         @endif
     </div>
 

@@ -28,6 +28,9 @@ class AdoptionApplication extends Model
         'application_date',
         'status',
         'reason',
+        'front_side_ID_card',
+        'back_side_ID_card',
+        'link_social',
     ];
             /**
      * search status 

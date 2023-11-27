@@ -91,7 +91,7 @@ p {
     overflow: hidden;
     height: 200px;
 }
-.animal .img-animal img {
+.animal .img-animal img, .animal .img-animal video {
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     -ms-transform: scale(1);
@@ -105,20 +105,22 @@ p {
     width: 100%;
 }
 @media (min-width: 991.98px) {
-    .animal  img {
+    .animal  img, .animal video {
         display: block;
         height: 320px;
     }
 }
 @media (max-width: 991.98px) {
-    .animal  img {
+    .animal  img, .animal video {
         display: block;
         min-height: 300px;
     }
 }
 
 .animal .img-animal:hover img,
-.animal .img-animal:focus img {
+.animal .img-animal:focus img,
+.animal .img-animal:hover video,
+.animal .img-animal:focus video {
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);
     -ms-transform: scale(1.1);
@@ -241,3 +243,22 @@ input[type=number] {
     margin: 0;
     transition: max-height 0.5s ease;
   }
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 700px;
+        margin: 1.75rem auto;
+    }
+}
+.imgID {
+border: 1px #ddd solid;
+width: 260px;
+height: 136px;
+}
+.carousel {
+    height: auto !important;
+    position: relative;
+}
+.carousel-inner img{
+    max-height: 500px;
+}

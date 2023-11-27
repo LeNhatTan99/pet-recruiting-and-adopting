@@ -28,5 +28,31 @@ $(document).ready(function () {
             }
         });
     });
-}); 
+});
+
+$(document).on('click', '#showButton', function() {
+        var dataId = $(this).data('id');
+        var modal = $('#showModal');
+        let url = "{{ route('show.adoption-application', ['id' => 'id']) }}".replace('id', dataId);
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                console.log(response);
+                var adoptionApplication = response.adoptionApplication
+                modal.find('.result-username').val(adoptionApplication.username);
+                modal.find('.result-fullname').val(adoptionApplication.first_name + ' ' + adoptionApplication.last_name);
+                modal.find('.result-email').val(adoptionApplication.email);
+                modal.find('.result-phone').val(adoptionApplication.phone_number);
+                modal.find('.result-address').val(adoptionApplication.address);
+                modal.find('.result-link-social').val(adoptionApplication.link_social);
+                modal.find('.front-id-card').attr('src', '{{ asset('storage') }}/' + adoptionApplication.front_side_ID_card);
+                modal.find('.back-id-card').attr('src', '{{ asset('storage') }}/' + adoptionApplication.back_side_ID_card);
+            
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
 </script>

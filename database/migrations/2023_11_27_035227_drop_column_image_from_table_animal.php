@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('media', function (Blueprint $table) {
-            $table->id('id');
-            $table->integer('forum_post_id')->nullable();
-            $table->integer('animal_id')->nullable();
-            $table->string('type');
-            $table->string('url');
-            $table->timestamps();
+        Schema::table('animals', function (Blueprint $table) {
+            $table->dropColumn('image');
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('media');
+        Schema::table('tanimals', function (Blueprint $table) {
+            //
+        });
     }
 };

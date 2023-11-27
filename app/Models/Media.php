@@ -21,6 +21,7 @@ class Media extends Model
      */
     protected $fillable = [
         'forum_post_id',
+        'animal_id',
         'type',
         'url'
     ];

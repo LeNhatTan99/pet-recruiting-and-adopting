@@ -26,7 +26,7 @@ class StoreAnimalRequest extends FormRequest
     {
         return [
             'description' => 'required|max:500',
-            'image' => 'image|mimes:jpeg,png,jpg,gif' . ($this->route('id') ? '' : '|required'),
+            'media' =>($this->route('id') ? '' : '|required'),
             'age' => 'required|numeric',
             'name' => 'required|max:50',
             'breed' => 'required',

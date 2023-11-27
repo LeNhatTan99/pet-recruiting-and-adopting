@@ -8,6 +8,9 @@ a {
     width: 40px;
     object-fit: cover;
 }
+.pdy-20 {
+    padding: 20px 0;
+}
 .column{
     max-width: 150px;
     -webkit-box-orient: vertical;
@@ -111,4 +114,15 @@ a {
     .preview-item {
         width: 100%;
     }
+}
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 700px;
+        margin: 1.75rem auto;
+    }
+}
+.back-id-card, .front-id-card {   
+    border: 1px #ddd solid;
+    width: 260px;
+    height: 136px;   
 }

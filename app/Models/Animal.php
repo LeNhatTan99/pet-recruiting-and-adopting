@@ -37,7 +37,6 @@ class Animal extends Model
     protected $fillable = [
         'rescuer_id',
         'name',
-        'image',
         'type',
         'breed',
         'age',

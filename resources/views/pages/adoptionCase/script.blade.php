@@ -80,12 +80,30 @@ $(document).ready(function() {
             "reason": {
                 required: true,
                 minlength: 10,
+            },
+            "link_social": {
+                required: true,
+            },
+            "front_side_ID_card": {
+                required: true,
+            },
+            "back_side_ID_card": {
+                required: true,
             }
         },
         messages: {
             "reason": {
                 required: 'Reason is required.',
                 minlength: 'Reason must be at least 10 characters.'
+            },
+            "link_social": {
+                required: 'Link socical is required.',
+            },
+            "front_side_ID_card": {
+                required: 'Please select a photo of the front of your ID card.',
+            },
+            "back_side_ID_card": {
+                required: 'Please select a photo of the back of your ID card.',
             }
         },
         errorElement: 'p',
@@ -101,7 +119,7 @@ $(document).ready(function() {
     });
 
 
-    $('.btn-adoption').click(function() {
+    $('.btn-set-adopt').click(function() {
         // Retrieve the 'data-id' value from the clicked button
         var adoptionId = $(this).data('id');
         // Create a new URL based on the 'adoptionId'
@@ -111,20 +129,38 @@ $(document).ready(function() {
     });
     $('.btn-adopt').click(function(e) {
         e.preventDefault();
+       // Create a new FormData object
+        var formData = new FormData();
+
+        // Retrieve the value from the input field
+        var reason = $('input[name="reason"]').val();
+        var linkSocial = $('input[name="link_social"]').val();
+
+        // Append text data to the FormData object
+        formData.append('reason', reason);
+        formData.append('link_social', linkSocial);
+
+        // Assuming you have file inputs with ids "front_side_ID_card" and "back_side_ID_card"
+        var frontIDCard = $('input[name="front_side_ID_card"]')[0].files[0];
+        var backIDCard = $('input[name="back_side_ID_card"]')[0].files[0];
+
+        // Append file data to the FormData object
+        formData.append('front_side_ID_card', frontIDCard);
+        formData.append('back_side_ID_card', backIDCard);
+
         // Obtain the URL from the form's 'action' attribute
         var url = $('.create-form').attr('action');
-        // Retrieve the 'reason' from the input field
-        var reason = $('input[name="reason"]').val();
+
         // Perform an AJAX request to submit the form
         $.ajax({
             url: url,
-            data: {
-                reason: reason
-            },
+            type: 'POST', // Specify the HTTP method
+            data: formData,  // Use FormData for the data
+            processData: false,  // Important: Don't process the data
+            contentType: false,  // Important: Don't set content type
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            method: 'post',
             success: function(result) {
                 // Handle success response
                 if (result.success && result.message) {
@@ -137,11 +173,12 @@ $(document).ready(function() {
             },
             error: function(error) {
                 // Handle errors
-                console.log(error);
                 if (error.statusText && error.statusText === 'Unauthorized') {
                     toastr.error('You must be logged in to perform this function');
                 }else if (error.status == 422) {
-                    toastr.error(error.responseJSON.errors.reason);
+                    var keyError = Object.keys(error.responseJSON.errors)[0];
+                    var errorMessage = error.responseJSON.errors[keyError];
+                    toastr.error(errorMessage);
                 } else {
                     toastr.error('An error occurred, please try again');
                 }
@@ -151,4 +188,18 @@ $(document).ready(function() {
         });
     });
 })
+
+function readURL(input, side) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            if (side === 'front') {
+                $('#frontIDPreview').attr('src', e.target.result);
+            } else if (side === 'back') {
+                $('#backIDPreview').attr('src', e.target.result);
+            }
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 </script>

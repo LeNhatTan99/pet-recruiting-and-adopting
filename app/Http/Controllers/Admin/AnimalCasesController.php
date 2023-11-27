@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAnimalRequest;
 use App\Models\Animal;
+use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -62,7 +63,12 @@ class AnimalCasesController extends Controller
 
         // Initialize a query builder for animals
         $datas = Animal::query();
-
+        $datas->leftJoin('media', 'media.animal_id', '=', 'animals.id')
+            ->select('animals.*',
+                    DB::raw('JSON_ARRAYAGG(JSON_OBJECT("url", media.url, "type", media.type)) as media_info'))
+            ->groupBy(
+                'animals.id',
+            );
         // Apply a search filter if a search term is provided
         if (isset($request->search)) {
             $searchTerm = $request->search;
@@ -75,7 +81,6 @@ class AnimalCasesController extends Controller
 
         // Paginate the result data with 10 records per page
         $datas = $datas->paginate(10);
-
         // Return a view with the list of animals and their statuses
         return view('admins.animals.index', compact('datas', 'status'));
     }
@@ -124,21 +129,15 @@ class AnimalCasesController extends Controller
             // Add the rescuer ID to the parameters
             $params['rescuer_id'] = $rescuerId;
 
-            // Process and store the animal's image if provided
-            if (isset($request->image)) {
-                $directory = 'public/images/animals';
-                if (!Storage::exists($directory)) {
-                    Storage::makeDirectory($directory);
-                }
-                $nameImage = Str::slug($request->name) . "." . $request->image->getClientOriginalExtension();
-                $path = Storage::putFileAs($directory, $request->file('image'), $nameImage);
-                $newPath = str_replace('public', '', $path);
-                $params['image'] = $newPath;
-            }
-
             // Create a new animal record with the provided parameters
-            Animal::create($params);
-
+            $animal = Animal::create($params);
+            
+            // Create media
+            $uploadedFiles = $request->file('media');
+            if(!empty($uploadedFiles)) {
+                //function create media file
+                $this->createMedia($uploadedFiles, $animal->id);
+            }
             // Commit the database transaction
             DB::commit();
 
@@ -164,10 +163,11 @@ class AnimalCasesController extends Controller
     {
         $data = Animal::find($id);
         $status = Animal::getStatus();
+        $media = Media::where('animal_id', $id)->get();
         $genders = $this->genders;
         $breeds =  $this->breeds;
         $types =  $this->types;
-        return view('admins.animals.edit', compact('data', 'status', 'genders', 'types', 'breeds'));
+        return view('admins.animals.edit', compact('data', 'status', 'genders', 'types', 'breeds', 'media'));
     }
 
     /**
@@ -190,15 +190,24 @@ class AnimalCasesController extends Controller
                 'status',
                 'description'
             ]);
-            if (isset($request->image)) {
-                $directory = 'public/images/animals';
-                if (!Storage::exists($directory)) {
-                    Storage::makeDirectory($directory);
+
+            $uploadedFiles = $request->file('media');
+            if(!empty($uploadedFiles)) {
+                //function create media file
+                $this->createMedia($uploadedFiles, $id);
+            }
+            //Check has delete media file when update
+            $deletedMediaIds = $request->input('delete_media_ids');
+            if(!empty($deletedMediaIds)) {
+                $deletedMediaIdsArray = json_decode($deletedMediaIds, true);
+                $mediaPaths = Media::whereIn('id', $deletedMediaIdsArray)->pluck('url')->toArray();
+
+                // delete media file in storage
+                foreach ($mediaPaths as $mediaPath) {
+                    Storage::delete('public' . $mediaPath);
                 }
-                $nameImage = Str::slug($request->name) . "." . $request->image->getClientOriginalExtension();
-                $path = Storage::putFileAs($directory, $request->file('image'), $nameImage);
-                $newPath = str_replace('public', '', $path);
-                $params['image'] = $newPath;
+                // delete media record in database
+                Media::whereIn('id', $deletedMediaIdsArray)->delete();
             }
             $data->update($params);
             DB::commit();
@@ -218,7 +227,11 @@ class AnimalCasesController extends Controller
     public function show($id)
     {
         try {
-            $animal = Animal::find($id);
+            $animal = Animal::leftJoin('media', 'media.animal_id', '=', 'animals.id')
+                ->select('animals.*', DB::raw('JSON_ARRAYAGG(JSON_OBJECT("url", media.url, "type", media.type)) as media_info'))
+                ->where('animals.id', $id)
+                ->groupBy('animals.id')
+                ->first();
             return response()->json([
                 'animal' => $animal,
                 'success' => true,
@@ -226,8 +239,7 @@ class AnimalCasesController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error('[AnimalCasesController][show] error ' . $e->getMessage());
-            DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'Failed to show info']);
+            return response()->json(['error' => false, 'message' => 'Failed to show info']);
         }
     }
 
@@ -271,7 +283,39 @@ class AnimalCasesController extends Controller
             DB::rollBack();
 
             // Return a JSON response indicating a failed status update
-            return response()->json(['success' => false, 'message' => 'Failed to update status']);
+            return response()->json(['error' => false, 'message' => 'Failed to update status']);
         }
+    }
+
+    public function createMedia($uploadedFiles, $animalId) {
+        $directoryImages = 'public/images/animals';
+        $directoryVideo = 'public/videos/animals';
+        if (!Storage::exists($directoryImages) ) {
+            Storage::makeDirectory($directoryImages);
+        }
+        if (!Storage::exists($directoryVideo) ) {
+            Storage::makeDirectory($directoryVideo);
+        }   
+        foreach ($uploadedFiles as $key => $file) {
+            $mimeType = $file->getMimeType();
+            $mediaType = null;
+            if (str_starts_with($mimeType, 'image/')) {
+                $directory = $directoryImages;
+                $mediaType = 'image';
+            } elseif (str_starts_with($mimeType, 'video/')) {
+                $directory = $directoryVideo;
+                $mediaType = 'video';
+            } else {
+                continue;
+            }       
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = Storage::putFileAs($directory, $file, $fileName);
+            $newPath = str_replace('public', '', $filePath);
+            Media::create([
+                'animal_id' => $animalId,
+                'url' => $newPath,
+                'type' => $mediaType,
+            ]);
+        }  
     }
 }

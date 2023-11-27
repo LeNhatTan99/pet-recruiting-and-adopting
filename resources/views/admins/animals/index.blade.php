@@ -74,8 +74,20 @@
                                             @foreach ($datas as $key => $animal)
                                                 <tr>
                                                     <td class="align-middle">{{ $key + 1 }}</td>
-                                                    <td class="align-middle"><img class="image-table"
-                                                            src="{{ asset('storage/' . $animal->image) }}" alt="image">
+                                                    <td class="align-middle">
+                                                        @if ($animal->media_info && count(json_decode($animal->media_info)) > 0)
+                                                            @php
+                                                                $file = json_decode($animal->media_info)[0];
+                                                            @endphp                                                     
+                                                            @if ($file->type == 'image')
+                                                                <img src="{{ asset('storage/' . $file->url) }}" class="image-table" alt="image">
+                                                            @elseif($file->type == 'video')
+                                                                <video class="image-table" controls>
+                                                                    <source src="{{ asset('storage/' . $file->url) }}" type="video/mp4">
+                                                                    Your browser does not support the video tag.
+                                                                </video>
+                                                            @endif
+                                                        @endif
                                                     </td>
                                                     <td class="column align-middle">{{ $animal->name }}</td>
                                                     <td class="column-text break-word align-middle">
@@ -133,7 +145,7 @@
                     <section class="section about-section gray-bg" id="about">
                         <div class="container">
                             <p class="result-status btn btn-info" style="margin: 0"></p>
-                            <div class="row align-items-center flex-row-reverse" style="min-height: 200px">
+                            <div class="row align-items-center flex-row-reverse pdy-20" style="min-height: 200px">
                                 <div class="col-lg-6">
                                     <div class="about-text go-to">
                                         <h3 class="dark-color">About Animal</h3>
@@ -142,9 +154,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="about-avatar">
-                                        <img class="result-image" src="{{ asset('images/web/image-preview.png') }}"
-                                            title="" alt="image" style="max-width: 100%">
+                                    <div class="about-avatar" style="max-height: 320px; overflow-y: auto; ">
                                     </div>
                                 </div>
                             </div>

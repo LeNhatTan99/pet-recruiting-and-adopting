@@ -30,14 +30,12 @@
 
             rules: {
                 "amount": {
-                    required: true,
-                    numeric: true
+                    required: true
                 },
             },
             messages: {
                 "amount": {
                     required: 'Amount is required.',
-                    numeric: 'Amount is numeric'
                 }
             },
             errorElement: 'p',

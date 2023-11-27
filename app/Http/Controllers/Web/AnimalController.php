@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class AnimalController extends Controller
@@ -76,7 +77,12 @@ public function adoptionCases(Request $request) {
     } else {
         $datas = Animal::query()->where('status', Animal::AVAILABLE);
     }
-    
+    $datas->leftJoin('media', 'media.animal_id', '=', 'animals.id')
+        ->select('animals.*',
+                DB::raw('JSON_ARRAYAGG(JSON_OBJECT("url", media.url, "type", media.type)) as media_info'))
+        ->groupBy(
+            'animals.id',
+        );
     // Apply filters based on user input
     if (isset($request->breed)) {
         $datas->where('breed', $request->input('breed'));
@@ -128,5 +134,24 @@ public function adoptionCases(Request $request) {
     }
 }
 
-
+       /**
+     * show info animal
+     * @param $id
+     * @return void
+     */
+    public function showAnimalCase($id)
+    {
+        try {
+            $animal = Animal::leftJoin('media', 'media.animal_id', '=', 'animals.id')
+                ->select('animals.*', DB::raw('JSON_ARRAYAGG(JSON_OBJECT("url", media.url, "type", media.type)) as media_info'))
+                ->where('animals.id', $id)
+                ->groupBy('animals.id')
+                ->firstOrFail();
+            return view('pages.adoptionCase.show', compact('animal'));
+        } catch (\Exception $e) {
+            Log::error('[AnimalCasesController][show] error ' . $e->getMessage());           
+            abort(404, 'Animal not found');
+            return response()->json(['success' => false, 'message' => 'Failed to show info animal case']);
+        }
+    }
 }

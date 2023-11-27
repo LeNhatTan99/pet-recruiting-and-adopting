@@ -28,8 +28,21 @@
                                 <div class="col-md-6 col-lg-3 ">
                                     <div class="animal">
                                         <div class="img-animal">
-                                            <a>
-                                                <img class="img-fluid" src="{{ asset('storage/'.$animal->image) }}" alt="Hình ảnh">
+                                            <a href="{{route('showAnimalCase', $animal->id)}}">
+                                                @if ($animal->media_info && count(json_decode($animal->media_info)) > 0)
+                                                    @php
+                                                        $file = json_decode($animal->media_info)[0];
+                                                    @endphp
+                                                    {{$file->type, 123}}                                                  
+                                                    @if ($file->type == 'image')
+                                                        <img src="{{ asset('storage/' . $file->url) }}" class="img-fluid" alt="image">
+                                                    @elseif($file->type == 'video')
+                                                        <video class="img-fluid" controls>
+                                                            <source src="{{ asset('storage/' . $file->url) }}" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    @endif
+                                                @endif
                                                 <div class="overlay"></div>
                                             </a>
                                         </div>

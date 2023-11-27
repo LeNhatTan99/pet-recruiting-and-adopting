@@ -67,6 +67,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'admin'], function () {
         Route::get('/edit/{id}', [AdoptionApplicationController::class, 'edit'])->name('edit.adoption-application');
         Route::post('/update/{id}', [AdoptionApplicationController::class, 'update'])->name('update.adoption-application');
         Route::post('/delete/{id}', [AdoptionApplicationController::class, 'delete'])->name('delete.adoption-application');
+        Route::get('/show/{id}', [AdoptionApplicationController::class, 'show'])->name('show.adoption-application');
     });
     //Admin route manager donation
     Route::group(['prefix' => 'donation'], function () {
@@ -99,4 +100,5 @@ Route::get('/', function () {
 })->name('home');
 Route::get('adoption-cases', [AnimalController::class, 'adoptionCases'])->name('adoptionCases');
 Route::get('donation-cases', [AnimalController::class, 'adoptionCases'])->name('donationCases');
+Route::get('show-animal-case/{id}', [AnimalController::class, 'showAnimalCase'])->name('showAnimalCase');
 Route::get('news', [WebNewsController::class, 'index'])->name('news');
